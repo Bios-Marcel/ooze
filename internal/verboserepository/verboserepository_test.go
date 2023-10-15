@@ -1,6 +1,8 @@
 package verboserepository_test
 
 import (
+	"fmt"
+	"path/filepath"
 	"testing"
 
 	"github.com/gtramontina/ooze/internal/oozetesting/fakelogger"
@@ -24,7 +26,7 @@ func TestVerboseRepository(t *testing.T) {
 
 		assert.Equal(t, []string{
 			"listing go source files…",
-			"found 3 source files: [dir/file_c.go file_a.go file_b.go]",
+			fmt.Sprintf("found 3 source files: [%s %s %s]", filepath.Clean("dir/file_c.go"), "file_a.go", "file_b.go"),
 		}, logger.LoggedLines())
 	})
 

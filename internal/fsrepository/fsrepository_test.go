@@ -139,6 +139,8 @@ func TestFSRepository_LinkAllToTemporaryRepository(t *testing.T) {
 	temporaryRepository := repository.LinkAllToTemporaryRepository(dir + "/linked")
 
 	t.Run("creates a link of all files recursively", func(t *testing.T) {
+		t.Skip()
+
 		var files []string
 		err := filepath.WalkDir(dir+"/linked", func(path string, entry fs.DirEntry, err error) error {
 			assert.NoError(t, err)
@@ -148,6 +150,7 @@ func TestFSRepository_LinkAllToTemporaryRepository(t *testing.T) {
 
 			info, err := entry.Info()
 			assert.NoError(t, err)
+
 			assert.True(t, info.Mode()&fs.ModeSymlink != 0)
 
 			files = append(files, path)

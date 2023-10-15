@@ -83,7 +83,7 @@ func (r *FSRepository) LinkAllToTemporaryRepository(temporaryPath string) ooze.T
 		}
 
 		if entry.IsDir() {
-			return err
+			return nil
 		}
 
 		absolutePath, err := filepath.Abs(path)
@@ -92,13 +92,11 @@ func (r *FSRepository) LinkAllToTemporaryRepository(temporaryPath string) ooze.T
 		}
 
 		linkPath := filepath.Join(temporaryPath, filepath.Join(strings.Split(path, string(os.PathSeparator))[rootSize:]...))
-		err = os.MkdirAll(filepath.Dir(linkPath), os.ModePerm)
-		if err != nil {
+		if err := os.MkdirAll(filepath.Dir(linkPath), os.ModePerm); err != nil {
 			return fmt.Errorf("failed creating directory tree for '%s': %w", linkPath, err)
 		}
 
-		err = os.Symlink(absolutePath, linkPath)
-		if err != nil {
+		if err := os.Link(absolutePath, linkPath); err != nil {
 			return fmt.Errorf("failed creating link from '%s' to '%s': %w", path, linkPath, err)
 		}
 

@@ -5,6 +5,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"path/filepath"
 
 	"github.com/gtramontina/ooze/internal/goinfectedfile"
 	"github.com/gtramontina/ooze/viruses"
@@ -17,7 +18,7 @@ type GoSourceFile struct {
 
 func New(relativePath string, rawContent []byte) *GoSourceFile {
 	return &GoSourceFile{
-		relativePath: relativePath,
+		relativePath: filepath.Clean(relativePath),
 		rawContent:   rawContent,
 	}
 }
